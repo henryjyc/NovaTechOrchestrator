@@ -3,26 +3,12 @@ package com.sst.nt.lms.orch.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 /**
  * A book in a library.
  *
  * @author Salem Ozaki
  * @author Jonathan Lovelace
  */
-@Entity
-@Table(name = "tbl_book")
 public class Book implements Serializable {
 	/**
 	 * Serialization version. Increment on any change to class structure that is
@@ -32,36 +18,18 @@ public class Book implements Serializable {
 	/**
 	 * The ID number used to refer to this book in the database.
 	 */
-	@Id
-	@Column(name = "bookId")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private final int id;
 	/**
 	 * The title of the book.
 	 */
-	@Column
 	private String title;
-	// Uncommenting this field causes book deletions to not be cascaded properly.
-//	/**
-//	 * List of loans of this book.
-//	 */
-//	@JsonBackReference
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.book", cascade = {CascadeType.REMOVE})
-//	private List<Loan> loans;
 	/**
 	 * The author of the book.
 	 */
-	@ManyToOne
-	@JoinColumn(name = "authId")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Author author;
 	/**
 	 * The publisher of the book.
 	 */
-	@ManyToOne
-	@JoinColumn(name = "pubId")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Publisher publisher;
 
 	/**
@@ -96,16 +64,6 @@ public class Book implements Serializable {
 	public String getTitle() {
 		return title;
 	}
-
-//	/**
-//	 * Get a list of loans of this book.
-//	 *
-//	 * <p>TODO: Return a copy instead.
-//	 * @return	list of loans of this book
-//	 */
-//	public List<Loan> getLoans() {
-//		return loans;
-//	}
 
 	/**
 	 * Set the title of the book, which must not be null.

@@ -3,13 +3,6 @@ package com.sst.nt.lms.orch.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 /**
  * A class to be the primary key of a {@link Loan} for JPA, which requires every
  * Entity to have a single primary key.
@@ -18,7 +11,6 @@ import org.hibernate.annotations.OnDeleteAction;
  *
  * @author Jonathan Lovelace
  */
-@Embeddable
 public class LoanIdentity implements Serializable {
 	/**
 	 * Serialization version. Increment on any change to class structure that is
@@ -29,31 +21,16 @@ public class LoanIdentity implements Serializable {
 	/**
 	 * The book that was borrowed.
 	 */
-//	@JsonBackReference
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@ManyToOne
-	@JoinColumn(name = "bookId")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private final Book book;
 
 	/**
 	 * The borrower who checked out the book.
 	 */
-//	@JsonBackReference
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@ManyToOne
-	@JoinColumn(name = "cardNo")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private final Borrower borrower;
 
 	/**
 	 * The branch from which the book was checked out.
 	 */
-//	@JsonBackReference
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@ManyToOne
-	@JoinColumn(name = "branchId")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private final Branch branch;
 
 	/**

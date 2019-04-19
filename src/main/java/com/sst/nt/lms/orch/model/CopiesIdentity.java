@@ -3,13 +3,6 @@ package com.sst.nt.lms.orch.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
@@ -21,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
  *
  * @author Jonathan Lovelace
  */
-@Embeddable
 public class CopiesIdentity implements Serializable {
 	/**
 	 * Serialization version. Increment on any change to class structure that is
@@ -33,20 +25,12 @@ public class CopiesIdentity implements Serializable {
 	 * The branch that owns the copies.
 	 */
 	@JsonBackReference
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@ManyToOne
-	@JoinColumn(name = "branchId", insertable = false, updatable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private final Branch branch;
 
 	/**
 	 * The book that this represents copies of.
 	 */
 	@JsonBackReference
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@ManyToOne
-	@JoinColumn(name = "bookId")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private final Book book;
 
 	/**

@@ -3,21 +3,12 @@ package com.sst.nt.lms.orch.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 /**
  * A user of the library who is able to check out books.
  *
  * @author Salem Ozaki
  * @author Jonathan Lovelace
  */
-@Entity
-@Table(name = "tbl_borrower")
 public class Borrower implements Serializable {
 	/**
 	 * Serialization version. Increment on any change to class structure that is
@@ -27,41 +18,19 @@ public class Borrower implements Serializable {
 	/**
 	 * The borrower's card number, used as this object's identity.
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private final int cardNo;
 	/**
 	 * The borrower's name.
 	 */
-	@Column
 	private String name;
 	/**
 	 * The borrower's address.
 	 */
-	@Column
 	private String address;
 	/**
 	 * The borrower's phone number.
 	 */
-	@Column
 	private String phone;
-
-	// Uncommenting this field causes borrower deletions to not be cascaded properly.
-//	@JsonBackReference
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.borrower")
-//	private List<Loan> loans;
-
-//	/**
-//	 * Get a list of loans to this borrower.
-//	 *
-//	 * <p>TODO: return a copy instead
-//	 *
-//	 * @return	get list of loans belonging to this borrower
-//	 */
-//	public List<Loan> getLoans() {
-//		return loans;
-//	}
 
 	/**
 	 * No-arg constructor required for JPA.

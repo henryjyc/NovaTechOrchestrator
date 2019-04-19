@@ -3,21 +3,12 @@ package com.sst.nt.lms.orch.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 /**
  * A branch of a library.
  *
  * @author Salem Ozaki
  * @author Jonathan Lovelace
  */
-@Entity
-@Table(name = "tbl_library_branch")
 public class Branch implements Serializable {
 	/**
 	 * Serialization version. Increment on any change to class structure that is
@@ -27,29 +18,15 @@ public class Branch implements Serializable {
 	/**
 	 * The ID number used to identify this branch in the database.
 	 */
-	@Id
-	@Column(name = "branchId")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private final int id;
 	/**
 	 * The name of the branch.
 	 */
-	@Column(name = "branchName")
 	private String name;
 	/**
 	 * The address of the branch.
 	 */
-	@Column(name = "branchAddress")
 	private String address;
-
-	// Uncommenting this field causes branch deletions to not be cascaded properly.
-//	/**
-//	 * list of loans from this branch
-//	 */
-//	@JsonBackReference
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.branch")
-//	private List<Loan> loans;
 
 	/**
 	 * No-arg constructor required for JPA.
@@ -71,16 +48,6 @@ public class Branch implements Serializable {
 		this.name = name;
 		this.address = address;
 	}
-
-//	/**
-//	 * Get a list of loans from this branch.
-//	 *
-//	 * <p>TODO: return a copy instead
-//	 * @return	get list of loans from this branch
-//	 */
-//	public List<Loan> getLoans() {
-//		return loans;
-//	}
 
 	/**
 	 * Get the name of the branch, which will not be null.

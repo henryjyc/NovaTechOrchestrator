@@ -6,11 +6,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 /**
  * An object representing the loan of a book. Unlike every other model class,
  * this has no ID field; instead, its identity consists in the intersection of
@@ -19,24 +14,19 @@ import javax.persistence.Table;
  * @author Salem Ozaki
  * @author Jonathan Lovelace
  */
-@Entity
-@Table(name = "tbl_book_loans")
 public class Loan {
 	/**
 	 * The three fields that together constitute the identity of a loan.
 	 */
-	@EmbeddedId
 	private LoanIdentity id;
 
 	/**
 	 * When the book was checked out.
 	 */
-	@Column
 	private LocalDateTime dateOut;
 	/**
 	 * When the book is due.
 	 */
-	@Column
 	private LocalDate dueDate;
 
 	/**

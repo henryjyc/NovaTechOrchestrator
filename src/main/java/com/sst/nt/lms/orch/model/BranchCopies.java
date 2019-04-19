@@ -2,11 +2,6 @@ package com.sst.nt.lms.orch.model;
 
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 /**
  * An object representing the number of copies of a book held by a particular
  * branch. Unlike almost every other model class, this has no numeric ID field;
@@ -15,19 +10,15 @@ import javax.persistence.Table;
  * @author Jonathan Lovelace
  * @author Salem Ozaki
  */
-@Entity
-@Table(name = "tbl_book_copies")
 public class BranchCopies {
 	/**
 	 * The two fields that together constitute the identity of a copies record.
 	 */
-	@EmbeddedId
 	private CopiesIdentity id;
 
 	/**
 	 * The number of copies of the book that the branch currently holds.
 	 */
-	@Column(name = "noOfCopies")
 	private int copies;
 
 	/**

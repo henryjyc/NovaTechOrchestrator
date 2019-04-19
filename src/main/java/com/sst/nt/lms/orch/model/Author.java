@@ -3,21 +3,12 @@ package com.sst.nt.lms.orch.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 /**
  * An author of books.
  *
  * @author Salem Ozaki
  * @author Jonathan Lovelace
  */
-@Entity
-@Table(name = "tbl_author")
 public class Author implements Serializable {
 	/**
 	 * Serialization version. Increment on any change to class structure that is
@@ -27,14 +18,10 @@ public class Author implements Serializable {
 	/**
 	 * The author's ID in the database.
 	 */
-	@Id
-	@Column(name = "authorId")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private final int id;
 	/**
 	 * The author's name.
 	 */
-	@Column(name = "authorName")
 	private String name;
 	/**
 	 * No-arg constructor required for JPA.
