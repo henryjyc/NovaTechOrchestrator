@@ -34,7 +34,7 @@ public class BorrowerController {
 	 * @param <T> the type we expect
 	 * @return the response the server sent
 	 */
-	private <T> ResponseEntity<T> getAll(final String url, final HttpMethod method) {
+	private <T> ResponseEntity<T> methodCall(final String url, final HttpMethod method) {
 		return restTemplate.exchange(url, method, null,
 				new ParameterizedTypeReference<T>() {});
 	}
@@ -53,7 +53,7 @@ public class BorrowerController {
 	public ResponseEntity<Loan> borrowBook(@PathVariable("cardNo") final int cardNo,
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("bookId") final int bookId) {
-		return this.<Loan>getAll("http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId, HttpMethod.POST);
+		return this.<Loan>methodCall("http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId, HttpMethod.POST);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class BorrowerController {
 	@GetMapping(path = "/branch/{branchId}/copies")
 	public ResponseEntity<List<BranchCopies>> getAllBranchCopies(
 			@PathVariable("branchId") final int branchId) {
-		return this.<List<BranchCopies>>getAll("http://" + borrowerUrl + "/branch/" + branchId + "/copies", HttpMethod.GET);
+		return this.<List<BranchCopies>>methodCall("http://" + borrowerUrl + "/branch/" + branchId + "/copies", HttpMethod.GET);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class BorrowerController {
 			@PathVariable("bookId") final int bookId) {
 		String returningBookUrl = "http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId;
 		
-		return this.<String>getAll(returningBookUrl, HttpMethod.DELETE);
+		return this.<String>methodCall(returningBookUrl, HttpMethod.DELETE);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class BorrowerController {
 	public ResponseEntity<List<Branch>> getAllBranchesWithLoan(
 			@PathVariable("cardNo") final int cardNo) {
 		String getAllBranchesUrl = "http://" + borrowerUrl + "/borrower/" + cardNo + "/branches";
-		return this.<List<Branch>>getAll(getAllBranchesUrl, HttpMethod.GET);
+		return this.<List<Branch>>methodCall(getAllBranchesUrl, HttpMethod.GET);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class BorrowerController {
 	public ResponseEntity<List<Loan>> getAllBorrowedBooks(
 			@PathVariable("cardNo") final int cardNo) {
 		String getAllBorrowerLoansUrl = "http://" + borrowerUrl + "/borrower/" + cardNo + "/loans";
-		return this.<List<Loan>>getAll(getAllBorrowerLoansUrl, HttpMethod.GET);
+		return this.<List<Loan>>methodCall(getAllBorrowerLoansUrl, HttpMethod.GET);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class BorrowerController {
 	@GetMapping(path = "/borrower/{cardNo}")
 	public ResponseEntity<Borrower> getBorrowerById(
 			@PathVariable("cardNo") final int cardNo) {
-		return this.<Borrower>getAll("http://" + borrowerUrl + "/borrower/" + cardNo, HttpMethod.GET);
+		return this.<Borrower>methodCall("http://" + borrowerUrl + "/borrower/" + cardNo, HttpMethod.GET);
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class BorrowerController {
 	@GetMapping(path = "/branch/{branchId}")
 	public ResponseEntity<Branch> getbranch(
 			@PathVariable("branchId") final int branchId) {
-		return this.<Branch>getAll("http://" + borrowerUrl + "/branch/" + branchId, HttpMethod.GET);
+		return this.<Branch>methodCall("http://" + borrowerUrl + "/branch/" + branchId, HttpMethod.GET);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class BorrowerController {
 	 */
 	@GetMapping(path = "/book/{bookId}")
 	public ResponseEntity<Book> getBook(@PathVariable("bookId") final int bookId) {
-		return this.<Book>getAll("http://" + borrowerUrl + "/book/" + bookId, HttpMethod.GET);
+		return this.<Book>methodCall("http://" + borrowerUrl + "/book/" + bookId, HttpMethod.GET);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class BorrowerController {
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("bookId") final int bookId) {
 		String url = "http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId;
-		ResponseEntity<Loan> returnValue = this.<Loan>getAll(url, HttpMethod.GET);
+		ResponseEntity<Loan> returnValue = this.<Loan>methodCall(url, HttpMethod.GET);
 		return returnValue;
 	}
 
@@ -213,6 +213,6 @@ public class BorrowerController {
 //	@GetMapping(path = "/branches") conflicts with anther controller on this orchestrator
 	public ResponseEntity<List<Branch>> getAllBranches() {
 		String getAllBranchesUrl = "http://" + borrowerUrl + "/branches";
-		return this.<List<Branch>>getAll(getAllBranchesUrl, HttpMethod.GET);
+		return this.<List<Branch>>methodCall(getAllBranchesUrl, HttpMethod.GET);
 	}
 }
