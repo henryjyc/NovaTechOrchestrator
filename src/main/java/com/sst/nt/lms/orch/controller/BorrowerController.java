@@ -53,8 +53,7 @@ public class BorrowerController {
 	public ResponseEntity<Loan> borrowBook(@PathVariable("cardNo") final int cardNo,
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("bookId") final int bookId) {
-		return restTemplate.postForEntity("http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId,
-				null, Loan.class);
+		return this.<Loan>getAll("http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId, HttpMethod.POST);
 	}
 
 	/**
@@ -150,7 +149,7 @@ public class BorrowerController {
 	@GetMapping(path = "/borrower/{cardNo}")
 	public ResponseEntity<Borrower> getBorrowerById(
 			@PathVariable("cardNo") final int cardNo) {
-		return restTemplate.getForEntity("http://" + borrowerUrl + "/borrower/" + cardNo, Borrower.class);
+		return this.<Borrower>getAll("http://" + borrowerUrl + "/borrower/" + cardNo, HttpMethod.GET);
 	}
 
 	/**
@@ -165,7 +164,7 @@ public class BorrowerController {
 	@GetMapping(path = "/branch/{branchId}")
 	public ResponseEntity<Branch> getbranch(
 			@PathVariable("branchId") final int branchId) {
-		return restTemplate.getForEntity("http://" + borrowerUrl + "/branch/" + branchId, Branch.class);
+		return this.<Branch>getAll("http://" + borrowerUrl + "/branch/" + branchId, HttpMethod.GET);
 	}
 
 	/**
@@ -179,7 +178,7 @@ public class BorrowerController {
 	 */
 	@GetMapping(path = "/book/{bookId}")
 	public ResponseEntity<Book> getBook(@PathVariable("bookId") final int bookId) {
-		return restTemplate.getForEntity("http://" + borrowerUrl + "/book/" + bookId, Book.class);
+		return this.<Book>getAll("http://" + borrowerUrl + "/book/" + bookId, HttpMethod.GET);
 	}
 
 	/**
@@ -198,7 +197,9 @@ public class BorrowerController {
 			@PathVariable("cardNo") final int cardNo,
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("bookId") final int bookId) {
-		return restTemplate.getForEntity("http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId, Loan.class);
+		String url = "http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId;
+		ResponseEntity<Loan> returnValue = this.<Loan>getAll(url, HttpMethod.GET);
+		return returnValue;
 	}
 
 	/**
