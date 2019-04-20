@@ -146,7 +146,7 @@ public class BorrowerController {
 	 * @throws TransactionException retrieve exception if it cannot find the
 	 *                              requested borrower
 	 */
-	@GetMapping(path = "/borrower/{cardNo}")
+//	@GetMapping(path = "/borrower/{cardNo}") Already exists in executive admin controller
 	public ResponseEntity<Borrower> getBorrowerById(
 			@PathVariable("cardNo") final int cardNo) {
 		return this.<Borrower>methodCall("http://" + borrowerUrl + "/borrower/" + cardNo, HttpMethod.GET);
@@ -161,7 +161,7 @@ public class BorrowerController {
 	 * @throws TransactionException retrieve exception if it cannot find the
 	 *                              requested branch
 	 */
-	@GetMapping(path = "/branch/{branchId}")
+//	@GetMapping(path = "/branch/{branchId}") Already exists in executive admin controller
 	public ResponseEntity<Branch> getbranch(
 			@PathVariable("branchId") final int branchId) {
 		return this.<Branch>methodCall("http://" + borrowerUrl + "/branch/" + branchId, HttpMethod.GET);
@@ -176,7 +176,7 @@ public class BorrowerController {
 	 * @throws TransactionException retrieve exception if it cannot find the
 	 *                              requested book
 	 */
-	@GetMapping(path = "/book/{bookId}")
+//	@GetMapping(path = "/book/{bookId}") Already exists in catalog admin controller
 	public ResponseEntity<Book> getBook(@PathVariable("bookId") final int bookId) {
 		return this.<Book>methodCall("http://" + borrowerUrl + "/book/" + bookId, HttpMethod.GET);
 	}
