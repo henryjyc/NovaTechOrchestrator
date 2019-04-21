@@ -56,41 +56,41 @@ public class LibrarianController {
 
 	}
 
-	@RequestMapping(path = { "/branch/{branchId}", "/branch/{branchId}/" }, method = RequestMethod.GET)
+	@RequestMapping(path = { "/branches/{branchId}", "/branches/{branchId}/" }, method = RequestMethod.GET)
 	public Branch getBranch(@PathVariable("branchId") int branchId) {
-		return restTemplate.getForEntity("http://librarian-service/librarian/branch/" + branchId, Branch.class)
+		return restTemplate.getForEntity("http://librarian-service/librarian/branches/" + branchId, Branch.class)
 				.getBody();
 	}
 
-	@RequestMapping({ "/book/{bookId}", "/book/{bookId}/" })
+	@RequestMapping({ "/books/{bookId}", "/books/{bookId}/" })
 	public Book getBook(@PathVariable("bookId") int bookId) {
-		return restTemplate.getForEntity("http://librarian-service/librarian/book/" + bookId, Book.class).getBody();
+		return restTemplate.getForEntity("http://librarian-service/librarian/books/" + bookId, Book.class).getBody();
 	}
 
-	@RequestMapping(path = { "/branch/{branchId}", "/branch/{branchId}/" }, method = RequestMethod.PUT)
+	@RequestMapping(path = { "/branches/{branchId}", "/branches/{branchId}/" }, method = RequestMethod.PUT)
 	public ResponseEntity<Branch> updateBranch(@PathVariable("branchId") final int branchId,
 			@RequestBody Branch input) {
 
-		return this.<Branch> doProcess("http://librarian-service/librarian/branch/" + branchId, HttpMethod.PUT);
+		return this.<Branch> doProcess("http://librarian-service/librarian/branches/" + branchId, HttpMethod.PUT);
 
 	}
 
-	@RequestMapping(path = { "/branch/{branchId}/book/{bookId}",
+	@RequestMapping(path = { "/branches/{branchId}/books/{bookId}",
 			"/branch/{branchId}/book/{bookId}/" }, method = RequestMethod.PUT)
 	public ResponseEntity<BranchCopies> setBranchCopies(@PathVariable("branchId") int branchId,
 			@PathVariable("bookId") int bookId, @RequestParam("noOfCopies") int copies) {
 
 		return this.<BranchCopies> doProcess(
-				"http://librarian-service/librarian/branch/" + branchId + "/book/" + bookId + "?noOfCopies=" + copies,
+				"http://librarian-service/librarian/branches/" + branchId + "/books/" + bookId + "?noOfCopies=" + copies,
 				HttpMethod.PUT);
 	}
 
-	@RequestMapping(path = { "/branch/{branchId}/book/{bookId}",
+	@RequestMapping(path = { "/branches/{branchId}/books/{bookId}",
 			"/branch/{branchId}/book/{bookId}" }, method = RequestMethod.GET)
 	public ResponseEntity<BranchCopies> getBranchCopies(@PathVariable("branchId") int branchId,
 			@PathVariable("bookId") int bookId) {
 
-		return this.<BranchCopies> doProcess("http://librarian-service/librarian/branch/" + branchId + "/book/" + bookId,
+		return this.<BranchCopies> doProcess("http://librarian-service/librarian/branches/" + branchId + "/books/" + bookId,
 				HttpMethod.GET);
 	}
 
