@@ -57,14 +57,13 @@ public class LibrarianController {
 	}
 
 	@RequestMapping(path = { "/branches/{branchId}", "/branches/{branchId}/" }, method = RequestMethod.GET)
-	public Branch getBranch(@PathVariable("branchId") int branchId) {
-		return restTemplate.getForEntity("http://librarian-service/librarian/branches/" + branchId, Branch.class)
-				.getBody();
+	public ResponseEntity<Branch> getBranch(@PathVariable("branchId") int branchId) {
+		return restTemplate.getForEntity("http://librarian-service/librarian/branches/" + branchId, Branch.class);
 	}
 
 	@RequestMapping({ "/books/{bookId}", "/books/{bookId}/" })
-	public Book getBook(@PathVariable("bookId") int bookId) {
-		return restTemplate.getForEntity("http://librarian-service/librarian/books/" + bookId, Book.class).getBody();
+	public ResponseEntity<Book> getBook(@PathVariable("bookId") int bookId) {
+		return restTemplate.getForEntity("http://librarian-service/librarian/books/" + bookId, Book.class);
 	}
 
 	@RequestMapping(path = { "/branches/{branchId}", "/branches/{branchId}/" }, method = RequestMethod.PUT)

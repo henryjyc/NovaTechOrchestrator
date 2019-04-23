@@ -6,6 +6,8 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+import com.sst.nt.lms.orch.util.RestTemplateResponseErrorHandler;
+
 @SpringBootApplication
 public class NovaTechOrchestratorApplication {
 
@@ -15,5 +17,9 @@ public class NovaTechOrchestratorApplication {
 
 	@Bean
 	@LoadBalanced
-	public RestTemplate getRestTemplate() { return new RestTemplate();}
+	public RestTemplate getRestTemplate() {
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateResponseErrorHandler());
+		return restTemplate;
+	}
 }
