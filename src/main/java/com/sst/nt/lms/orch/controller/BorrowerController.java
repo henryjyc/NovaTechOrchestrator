@@ -49,11 +49,11 @@ public class BorrowerController {
 	 * @return Loans if created correctly with an appropriate http code, else an
 	 *         appropriate http error code
 	 */
-	@PostMapping(path = "/borrower/{cardNo}/branch/{branchId}/book/{bookId}")
+	@PostMapping(path = "/borrowers/{cardNo}/branches/{branchId}/books/{bookId}")
 	public ResponseEntity<Loan> borrowBook(@PathVariable("cardNo") final int cardNo,
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("bookId") final int bookId) {
-		return this.<Loan>methodCall("http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId, HttpMethod.POST);
+		return this.<Loan>methodCall("http://" + borrowerUrl + "/borrowers/" + cardNo + "/branches/" + branchId + "/books/" + bookId, HttpMethod.POST);
 	}
 
 	/**
@@ -71,10 +71,10 @@ public class BorrowerController {
 	 *                              not exist or if the search for the book copies
 	 *                              list failed.
 	 */
-	@GetMapping(path = "/branch/{branchId}/copies")
+	@GetMapping(path = "/branches/{branchId}/copies")
 	public ResponseEntity<List<BranchCopies>> getAllBranchCopies(
 			@PathVariable("branchId") final int branchId) {
-		return this.<List<BranchCopies>>methodCall("http://" + borrowerUrl + "/branch/" + branchId + "/copies", HttpMethod.GET);
+		return this.<List<BranchCopies>>methodCall("http://" + borrowerUrl + "/branches/" + branchId + "/copies", HttpMethod.GET);
 	}
 
 	/**
@@ -93,12 +93,12 @@ public class BorrowerController {
 	 *                              deleting the entry
 	 */
 	// FIXME: This should have 'loan' somewhere in the path!
-	@DeleteMapping(path = "/borrower/{cardNo}/branch/{branchId}/book/{bookId}")
+	@DeleteMapping(path = "/borrowers/{cardNo}/branches/{branchId}/books/{bookId}")
 	public ResponseEntity<String> returnBook(
 			@PathVariable("cardNo") final int cardNo,
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("bookId") final int bookId) {
-		String returningBookUrl = "http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId;
+		String returningBookUrl = "http://" + borrowerUrl + "/borrowers/" + cardNo + "/branches/" + branchId + "/books/" + bookId;
 		
 		return this.<String>methodCall(returningBookUrl, HttpMethod.DELETE);
 	}
@@ -113,10 +113,10 @@ public class BorrowerController {
 	 * @throws TransactionException retrieve exception if it cannot find the given
 	 *                              borrower
 	 */
-	@GetMapping(path = "/borrower/{cardNo}/branches") // FIXME: Should somehow indicate this is branches *with an outstanding loan* ...
+	@GetMapping(path = "/borrowers/{cardNo}/branches") // FIXME: Should somehow indicate this is branches *with an outstanding loan* ...
 	public ResponseEntity<List<Branch>> getAllBranchesWithLoan(
 			@PathVariable("cardNo") final int cardNo) {
-		String getAllBranchesUrl = "http://" + borrowerUrl + "/borrower/" + cardNo + "/branches";
+		String getAllBranchesUrl = "http://" + borrowerUrl + "/borrowers/" + cardNo + "/branches";
 		return this.<List<Branch>>methodCall(getAllBranchesUrl, HttpMethod.GET);
 	}
 
@@ -130,10 +130,10 @@ public class BorrowerController {
 	 * @throws TransactionException retrieve exception if it cannot find the given
 	 *                              borrower
 	 */
-	@GetMapping(path = "/borrower/{cardNo}/loans")
+	@GetMapping(path = "/borrowers/{cardNo}/loans")
 	public ResponseEntity<List<Loan>> getAllBorrowedBooks(
 			@PathVariable("cardNo") final int cardNo) {
-		String getAllBorrowerLoansUrl = "http://" + borrowerUrl + "/borrower/" + cardNo + "/loans";
+		String getAllBorrowerLoansUrl = "http://" + borrowerUrl + "/borrowers/" + cardNo + "/loans";
 		return this.<List<Loan>>methodCall(getAllBorrowerLoansUrl, HttpMethod.GET);
 	}
 
@@ -146,10 +146,10 @@ public class BorrowerController {
 	 * @throws TransactionException retrieve exception if it cannot find the
 	 *                              requested borrower
 	 */
-//	@GetMapping(path = "/borrower/{cardNo}") Already exists in executive admin controller
+//	@GetMapping(path = "/borrowers/{cardNo}") Already exists in executive admin controller
 	public ResponseEntity<Borrower> getBorrowerById(
 			@PathVariable("cardNo") final int cardNo) {
-		return this.<Borrower>methodCall("http://" + borrowerUrl + "/borrower/" + cardNo, HttpMethod.GET);
+		return this.<Borrower>methodCall("http://" + borrowerUrl + "/borrowers/" + cardNo, HttpMethod.GET);
 	}
 
 	/**
@@ -161,10 +161,10 @@ public class BorrowerController {
 	 * @throws TransactionException retrieve exception if it cannot find the
 	 *                              requested branch
 	 */
-//	@GetMapping(path = "/branch/{branchId}") Already exists in executive admin controller
+//	@GetMapping(path = "/branches/{branchId}") Already exists in executive admin controller
 	public ResponseEntity<Branch> getbranch(
 			@PathVariable("branchId") final int branchId) {
-		return this.<Branch>methodCall("http://" + borrowerUrl + "/branch/" + branchId, HttpMethod.GET);
+		return this.<Branch>methodCall("http://" + borrowerUrl + "/branches/" + branchId, HttpMethod.GET);
 	}
 
 	/**
@@ -176,9 +176,9 @@ public class BorrowerController {
 	 * @throws TransactionException retrieve exception if it cannot find the
 	 *                              requested book
 	 */
-//	@GetMapping(path = "/book/{bookId}") Already exists in catalog admin controller
+//	@GetMapping(path = "/books/{bookId}") Already exists in catalog admin controller
 	public ResponseEntity<Book> getBook(@PathVariable("bookId") final int bookId) {
-		return this.<Book>methodCall("http://" + borrowerUrl + "/book/" + bookId, HttpMethod.GET);
+		return this.<Book>methodCall("http://" + borrowerUrl + "/books/" + bookId, HttpMethod.GET);
 	}
 
 	/**
@@ -192,12 +192,12 @@ public class BorrowerController {
 	 * @throws TransactionException send an internal server error code if rollback
 	 *                              fails, else sends a not found code
 	 */
-	@GetMapping(path = "/borrower/{cardNo}/branch/{branchId}/book/{bookId}")
+	@GetMapping(path = "/borrowers/{cardNo}/branches/{branchId}/books/{bookId}")
 	public ResponseEntity<Loan> getLoanByIds(
 			@PathVariable("cardNo") final int cardNo,
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("bookId") final int bookId) {
-		String url = "http://" + borrowerUrl + "/borrower/" + cardNo + "/branch/" + branchId + "/book/" + bookId;
+		String url = "http://" + borrowerUrl + "/borrowers/" + cardNo + "/branches/" + branchId + "/books/" + bookId;
 		ResponseEntity<Loan> returnValue = this.<Loan>methodCall(url, HttpMethod.GET);
 		return returnValue;
 	}
