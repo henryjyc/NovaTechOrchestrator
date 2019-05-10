@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.sst.nt.lms.orch.util.RestTemplateResponseErrorHandler;
 
@@ -21,5 +23,21 @@ public class NovaTechOrchestratorApplication {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setErrorHandler(new RestTemplateResponseErrorHandler());
 		return restTemplate;
+	}
+
+	/**
+	 * Enable cross-origin requests.
+	 *
+	 * @return the CORS filter
+	 */
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(final CorsRegistry registry) {
+				registry.addMapping("/**").allowedMethods("GET", "POST", "PUT",
+						"DELETE", "HEAD");
+			}
+		};
 	}
 }
