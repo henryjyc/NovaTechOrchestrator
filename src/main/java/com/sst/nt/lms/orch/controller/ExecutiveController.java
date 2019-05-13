@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -180,7 +182,7 @@ public final class ExecutiveController {
 			@PathVariable("bookId") final int bookId,
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("borrowerId") final int borrowerId,
-			@RequestParam final LocalDate dueDate) {
+			@RequestParam @DateTimeFormat(iso = ISO.DATE) final LocalDate dueDate) {
 		return delegate.exchange(
 				"http://admin/loan/book/" + bookId + "/branch/" + branchId
 						+ "/borrower/" + borrowerId + "/due",
