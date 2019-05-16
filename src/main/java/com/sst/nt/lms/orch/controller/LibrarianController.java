@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,8 +70,8 @@ public class LibrarianController {
 	@RequestMapping(path = { "/branches/{branchId}", "/branches/{branchId}/" }, method = RequestMethod.PUT)
 	public ResponseEntity<Branch> updateBranch(@PathVariable("branchId") final int branchId,
 			@RequestBody Branch input) {
-
-		return this.<Branch> doProcess("http://librarian-service/librarian/branches/" + branchId, HttpMethod.PUT);
+		return restTemplate.exchange("http://librarian-service/librarian/branches/" + branchId,
+				HttpMethod.PUT, new HttpEntity<>(input), Branch.class);
 
 	}
 
