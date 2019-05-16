@@ -65,7 +65,7 @@ public final class CatalogController {
 	 * Get all books from the administrator service.
 	 * @return the list of all books, or other response
 	 */
-	// @GetMapping({"/books", "/books/"}) // conflicts with other controller's route
+	 @GetMapping({"/books", "/books/"}) // conflicts with other controller's route
 	public ResponseEntity<List<Book>> getBooks() {
 		return this.<List<Book>>getAll("http://admin/books/");
 	}
@@ -95,7 +95,7 @@ public final class CatalogController {
 	 * @param bookId the ID number of the book
 	 * @return the book, or other response
 	 */
-	// @GetMapping({"/book/{bookId}","/book/{bookId}/"}) // conflicts with other controller's route
+	 @GetMapping({"/book/{bookId}","/book/{bookId}/"}) // conflicts with other controller's route
 	public ResponseEntity<Book> getBook(@PathVariable("bookId") final int bookId) {
 		return delegate.getForEntity("http://admin/book/" + bookId, Book.class);
 	}
