@@ -2,11 +2,14 @@ package com.sst.nt.lms.orch.controller;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -157,52 +160,51 @@ public final class CatalogController {
 
 	/**
 	 * Create an author with the given name in the administrator service.
-	 * @param name the name to give the author
+	 * @param body the request body, which must contain a 'name' field.
 	 * @return the created author, or other response
 	 */
 	@PostMapping({ "/author", "/author/" })
 	public ResponseEntity<Author> createAuthor(
-			@RequestParam("name") final String name) {
-		return delegate.postForEntity("http://admin/author", null, Author.class,
-				Collections.singletonMap("name", name));
+			@RequestBody final Map<String, String> body) {
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		return delegate.postForEntity("http://admin/author",
+				new HttpEntity(body, headers), Author.class);
 	}
 
 	/**
 	 * Create a publisher with the specified parameters in the administrator
 	 * service.
 	 *
-	 * @param name    the name to give the publisher
-	 * @param address the address to give the publisher
-	 * @param phone   the phone number to give the publisher
+	 * @param body the request body, which must contain a 'name' field;
+	 *             'address' and 'phone' fields are also recognized.
 	 * @return the created publisher, or other response.
 	 */
 	@PostMapping({"/publisher", "/publisher/"})
-	public ResponseEntity<Publisher> createPublisher(@RequestParam("name") final String name,
-			@RequestParam(name = "address", defaultValue = "") final String address,
-			@RequestParam(name = "phone", defaultValue = "") final String phone) {
-		return delegate.postForEntity("http://admin/publisher", null,
-				Publisher.class, new MapBuilder<String, String>().entry("name", name)
-						.entry("address", address).entry("phone", phone).build());
+	public ResponseEntity<Publisher> createPublisher(
+			@RequestBody final Map<String, String> body) {
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		return delegate.postForEntity("http://admin/publisher",
+				new HttpEntity(body, headers), Publisher.class);
 	}
 
 	/**
-	 * Create a book with the specified parameters in the administrator service. If
-	 * an author or publisher with the specified IDs do not exist, they are created,
-	 * but differences in author or publisher state are otherwise not applied.
+	 * Create a book with the specified parameters in the administrator service.
 	 *
-	 * @param title     the title to give the book
-	 * @param author    the author to assign the book to
-	 * @param publisher the publisher to assign the book to
+	 * @param body the request body. It must have a title, its ID is
+	 *             ignored, and its author and publisher state other than
+	 *             ID are ignored unless none with the specified IDs exist,
+	 *             in which case they are added to the database and the
+	 *             provided IDs are ignored.
 	 * @return the created book, or other response
 	 */
 	@PostMapping({"/book", "/book/"})
-	public ResponseEntity<Book> createBook(@RequestParam("title") final String title,
-			@RequestParam(name = "author", required = false) final Author author,
-			@RequestParam(name = "publisher", required = false) final Publisher publisher) {
-		return delegate.postForEntity("http://admin/book", null, Book.class,
-				new MapBuilder<String, Object>().entry("title", title)
-						.entry("author", author).entry("publisher", publisher)
-						.build());
+	public ResponseEntity<Book> createBook(@RequestBody final Book body) {
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		return delegate.postForEntity("http://admin/book",
+				new HttpEntity(body, headers), Book.class);
 	}
 
 	/**

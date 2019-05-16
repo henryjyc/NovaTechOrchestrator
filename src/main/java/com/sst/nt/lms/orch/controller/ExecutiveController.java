@@ -2,13 +2,16 @@ package com.sst.nt.lms.orch.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -118,36 +121,32 @@ public final class ExecutiveController {
 	}
 	/**
 	 * Create a branch with the given name and address in the administrator service.
-	 * @param name the name of the branch
-	 * @param address the address of the branch
+	 * @param body the request body, which must contain a 'name' field; an
+	 *             'address' field is also recognized.
 	 * @return the created branch, or other response
 	 */
 	@PostMapping({"/branch", "/branch/"})
-	public ResponseEntity<Branch> createBranch(
-			@RequestParam("name") final String name,
-			@RequestParam(name = "address", defaultValue = "") final String address) {
-		return delegate.postForEntity("http://admin/branch", null, Branch.class,
-				new MapBuilder<String, String>().entry("name", name)
-						.entry("address", address).build());
+	public ResponseEntity<Branch> createBranch(@RequestBody final Map<String, String> body) {
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		return delegate.postForEntity("http://admin/branch", new HttpEntity(body, headers),
+				Branch.class);
 	}
 
 	/**
 	 * Create a borrower record with the given name, address, and phone data in the
 	 * administrator service.
 	 *
-	 * @param name    the name of the borrower
-	 * @param address the address of the borrower
-	 * @param phone   the phone number of the borrower
+	 * @param body the request body, which must contain a 'name' field;
+	 *             'address' and 'phone' fields are also recognized.
 	 * @return the created borrower record, or other response
 	 */
 	@PostMapping({"/borrower", "/borrower/"})
-	public ResponseEntity<Borrower> createBorrower(
-			@RequestParam("name") final String name,
-			@RequestParam(name = "address", defaultValue = "") final String address,
-			@RequestParam(name = "phone", defaultValue = "") final String phone) {
-		return delegate.postForEntity("http://admin/borrower", null, Borrower.class,
-				new MapBuilder<String, String>().entry("name", name)
-						.entry("address", address).entry("phone", phone).build());
+	public ResponseEntity<Borrower> createBorrower(@RequestBody final Map<String, String> body) {
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		return delegate.postForEntity("http://admin/borrower", new HttpEntity(body, headers),
+				Borrower.class);
 	}
 	/**
 	 * Delete the branch with the given ID in the administrator service.
