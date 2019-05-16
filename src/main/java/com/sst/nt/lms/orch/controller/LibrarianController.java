@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,8 +70,8 @@ public class LibrarianController {
 	@RequestMapping(path = { "/branches/{branchId}", "/branches/{branchId}/" }, method = RequestMethod.PUT)
 	public ResponseEntity<Branch> updateBranch(@PathVariable("branchId") final int branchId,
 			@RequestBody Branch input) {
-
-		return this.<Branch> doProcess("http://librarian-service/librarian/branches/" + branchId, HttpMethod.PUT);
+		return restTemplate.exchange("http://librarian-service/librarian/branches/" + branchId,
+				HttpMethod.PUT, new HttpEntity<>(input), Branch.class);
 
 	}
 
@@ -78,7 +79,7 @@ public class LibrarianController {
 			"/branch/{branchId}/book/{bookId}/" }, method = RequestMethod.PUT)
 	public ResponseEntity<BranchCopies> setBranchCopies(@PathVariable("branchId") int branchId,
 			@PathVariable("bookId") int bookId, @RequestParam("noOfCopies") int copies) {
-
+		// TODO: copies should be @RequestBody, and passed that way to librarian-service, not @RequestParam
 		return this.<BranchCopies> doProcess(
 				"http://librarian-service/librarian/branches/" + branchId + "/books/" + bookId + "?noOfCopies=" + copies,
 				HttpMethod.PUT);
