@@ -78,7 +78,7 @@ public class LibrarianController {
 			"/branch/{branchId}/book/{bookId}/" }, method = RequestMethod.PUT)
 	public ResponseEntity<BranchCopies> setBranchCopies(@PathVariable("branchId") int branchId,
 			@PathVariable("bookId") int bookId, @RequestParam("noOfCopies") int copies) {
-
+		// TODO: copies should be @RequestBody, and passed that way to librarian-service, not @RequestParam
 		return this.<BranchCopies> doProcess(
 				"http://librarian-service/librarian/branches/" + branchId + "/books/" + bookId + "?noOfCopies=" + copies,
 				HttpMethod.PUT);

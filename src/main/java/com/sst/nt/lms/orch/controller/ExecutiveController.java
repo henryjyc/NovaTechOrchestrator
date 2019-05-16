@@ -182,6 +182,7 @@ public final class ExecutiveController {
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("borrowerId") final int borrowerId,
 			@RequestParam @DateTimeFormat(iso = ISO.DATE) final LocalDate dueDate) {
+		// TODO: dueDate should be @RequestBody, and passed that way to admin, not @RequestParam
 		return delegate.exchange(
 				"http://admin/loan/book/" + bookId + "/branch/" + branchId
 						+ "/borrower/" + borrowerId + "/due",
