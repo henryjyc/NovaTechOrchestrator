@@ -206,4 +206,20 @@ public final class ExecutiveController {
 		return delegate.getForEntity("http://admin/loan/book/" + bookId + "/branch/"
 				+ branchId + "/borrower/" + borrowerId + "/due", LocalDate.class);
 	}
+
+	/**
+	 * Get all book loans the borrower has borrowed from any library branch.
+	 *
+	 * @param cardNo id for a particular borrower
+	 * @return 200(OK) if the borrower exists in the database and if everything goes
+	 *         correctly or will return 500(an internal server error) the roll back
+	 *         fails
+	 * @throws TransactionException retrieve exception if it cannot find the given
+	 *                              borrower
+	 */
+	@GetMapping(path = "/admin/borrowers/{cardNo}/loans")
+	public ResponseEntity<List<Loan>> getAllBorrowedBooks(
+			@PathVariable("cardNo") final int cardNo) {
+		return this.<List<Loan>>getAll("http://admin/borrowers/" + cardNo + "/loans");
+	}
 }
