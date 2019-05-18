@@ -1,6 +1,7 @@
 package com.sst.nt.lms.orch.controller;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -181,7 +182,8 @@ public final class ExecutiveController {
 			@PathVariable("bookId") final int bookId,
 			@PathVariable("branchId") final int branchId,
 			@PathVariable("borrowerId") final int borrowerId,
-			@RequestParam @DateTimeFormat(iso = ISO.DATE) final LocalDate dueDate) {
+			@RequestBody final Map<String, String> body) {
+		final LocalDate dueDate = LocalDate.parse(body.get("dueDate"));
 		// TODO: dueDate should be @RequestBody, and passed that way to admin, not @RequestParam
 		return delegate.exchange(
 				"http://admin/loan/book/" + bookId + "/branch/" + branchId
