@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+		<!-- <jackson.version>2.9.9.1</jackson.version --> <!-- Uncomment as soon as FasterXML/jackson-bom#22 merged -->
 	</properties>
 
 	<dependencies>
